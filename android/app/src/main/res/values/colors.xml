@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2196f3</color>
+    <color name="colorPrimaryDark">#1976d2</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FAFAFA</color>
+    <color name="background">#dadada</color>
+    <color name="lightgray">#F0F0F0</color>
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <!--<color name="red">#e51c23</color>-->
+    <color name="red">#db2b34</color>
+    <color name="red2">#d01716</color>
+    <color name="textbg">#e4e4e4</color>
+    <color name="blue">#2B81FF</color>
+    <color name="blue2">#7CA3CE</color>
+    <color name="backcolor">#E8E8E7</color>
+    <color name="gray4">#d2d2d2</color>
+    <color name="gray">#a6a4a4</color>
+    <color name="gray3">#858585</color>
+    <color name="gray2">#545454</color>
+    <color name="orange">#ff9900</color>
+    <color name="transparentblack">#e0333333</color>
+    <color name="pink">#e91e63</color>
+    <color name="pink_pressed">#ec407a</color>
+    <color name="transparentred">#e0ee0000</color>
+    <color name="transparentgray">#d0858585</color>
+    <color name="transparentwhite">#d0FAFAFA</color>
+    <color name="rippelColor">#0099CC</color>
+    <color name="orange2">#FF8022</color>
+    <color name="card_shadow">#10000000</color>
+    <color name="pink2">#ff7c80</color>
+    <color name="transparent1">#d0000000</color>
+    <color name="green">#00BB9D</color>
+    <color name="login_gray">#ff494949</color>
+    <color name="login_red_hint">#ffcccccc</color>
+</resources>
