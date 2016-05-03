@@ -91,11 +91,7 @@ public class LoginActivity extends AppCompatActivity implements viewController {
                     return;
                 }
 
-                Intent it = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(it);
-                return;
-
-//                getSalt();
+                getSalt();
             }
         });
 
@@ -168,7 +164,7 @@ public class LoginActivity extends AppCompatActivity implements viewController {
                     salt = json.getString("salt");
                     Login();
                 } else {
-                    Toast.makeText(LoginActivity.this, "账号尚未注册或者密码错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "账号尚未注册", Toast.LENGTH_SHORT).show();
                     bnSignin.setText("登录");
                 }
             } catch (Exception e) {
@@ -187,7 +183,7 @@ public class LoginActivity extends AppCompatActivity implements viewController {
                     Intent it = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(it);
                 } else {
-                    Toast.makeText(LoginActivity.this, "该账号尚未注册", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "账号尚未注册或者密码错误", Toast.LENGTH_SHORT).show();
                     bnSignin.setText("登录");
                 }
             } catch (Exception e) {
