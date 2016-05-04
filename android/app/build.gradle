@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "24.0.0 rc2"
+
+    defaultConfig {
+        applicationId "com.example.chenzhe.eyerhyme"
+        minSdkVersion 21
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('./key.jks')
+            storePassword "zero6775"
+            keyAlias "eyetheme"
+            keyPassword "zero6775"
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
+
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile name: 'SMSSDK-2.0.2', ext: 'aar'
+    compile name: 'SMSSDKGUI-2.0.2', ext: 'aar'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:gridlayout-v7:23.2.1'
+    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.makeramen:roundedimageview:2.2.1'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.zhy:okhttputils:2.3.9'
+    compile files('libs/AMap_3DMap_V3.3.1_20160419.jar')
+    compile files('libs/AMap_Location_V2.4.1_20160414.jar')
+}

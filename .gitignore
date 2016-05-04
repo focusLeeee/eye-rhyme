@@ -1,0 +1,9 @@
+/android/*.iml
+/android/.gradle
+/android/.idea
+/android/local.properties
+/android/.idea/workspace.xml
+/android/.idea/libraries
+/android/.DS_Store
+/android/build
+/android/captures
