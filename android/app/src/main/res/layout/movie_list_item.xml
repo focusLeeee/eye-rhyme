@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_selector">
+    <ImageView
+        android:id="@+id/iv_post"
+        android:layout_margin="20dp"
+        android:layout_width="70dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/head"/>
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="美国队长3"
+        android:textSize="20dp"
+        android:layout_alignTop="@+id/iv_post"
+        android:layout_toRightOf="@+id/iv_post"
+        />
+    <TextView
+        android:id="@+id/tv_director"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="导演： 黎洋"
+        android:textSize="15dp"
+        android:textColor="@color/gray2"
+        android:layout_below="@+id/tv_name"
+        android:layout_alignStart="@+id/tv_name"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/tv_actor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="主演： 黎洋"
+        android:textSize="15dp"
+        android:textColor="@color/gray2"
+        android:layout_below="@+id/tv_director"
+        android:layout_alignStart="@+id/tv_name"/>
+
+    <TextView
+        android:id="@+id/tv_release_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5月6日上映"
+        android:textSize="13dp"
+        android:textColor="@color/gray3"
+        android:layout_below="@+id/tv_actor"
+        android:layout_alignStart="@+id/tv_actor"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/tv_grade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8.0"
+        android:textColor="@color/orange2"
+        android:textSize="20dp"
+        android:layout_alignTop="@+id/tv_name"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"/>
+</RelativeLayout>

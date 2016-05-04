@@ -1,5 +1,6 @@
 package com.example.chenzhe.eyerhyme.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,15 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
+import com.example.chenzhe.eyerhyme.customInterface.viewController;
+import com.example.chenzhe.eyerhyme.util.PostUtil;
 import com.example.chenzhe.eyerhyme.util.ToastUtil;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ForgetPwNextActivity extends AppCompatActivity {
+public class ForgetPwNextActivity extends AppCompatActivity implements viewController {
 
     @Bind(R.id.tb_title)
     TextView tbTitle;
@@ -27,6 +35,11 @@ public class ForgetPwNextActivity extends AppCompatActivity {
     EditText tvRepw;
     @Bind(R.id.bn_commit)
     Button bnCommit;
+
+    private String salt;
+    private String password;
+    private String getSalt = "/account/get_salt";
+    private String updatePw = "/account/update";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +74,63 @@ public class ForgetPwNextActivity extends AppCompatActivity {
                 } else if (!tvNewpw.getText().toString().equals(tvRepw.getText().toString())) {
                     ToastUtil.printToast(ForgetPwNextActivity.this, "两次密码不一致");
                 } else {
-                    resetPw();
+                    password = tvNewpw.getText().toString();
+                    getSalt();
                 }
             }
         });
     }
 
+    private void getSalt() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", getIntent().getStringExtra("phone"));
+        PostUtil.newInstance().sendPost(this, getSalt, map);
+    }
+
     private void resetPw() {
-        Intent it = new Intent(ForgetPwNextActivity.this, LoginActivity.class);
-        startActivity(it);
-        ForgetPwNextActivity.this.finish();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", getIntent().getIntExtra("id",-1));
+        map.put("password", LoginActivity.Md5(password+salt));
+        PostUtil.newInstance().sendPost(this, updatePw, map);
+    }
+
+    @Override
+    public void updateView(String url, String response) {
+        if (response == null) {
+            ToastUtil.printToast(this, "network fail");
+            return;
+        }
+        if (url.equals(getSalt)) {
+            try {
+                JSONObject json = new JSONObject(response);
+                if (json.getBoolean("status")) {
+                    salt = json.getString("salt");
+                    resetPw();
+                } else {
+                    Toast.makeText(ForgetPwNextActivity.this, "账号尚未注册", Toast.LENGTH_SHORT).show();
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (url.equals(updatePw)) {
+            try {
+                JSONObject json = new JSONObject(response);
+                if (json.getBoolean("status")) {
+                    Intent it = new Intent(ForgetPwNextActivity.this, LoginActivity.class);
+                    startActivity(it);
+                    ForgetPwNextActivity.this.finish();
+                } else {
+                    Toast.makeText(ForgetPwNextActivity.this, "重置失败", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public Context myContext() {
+        return this;
     }
 }

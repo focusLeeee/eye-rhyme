@@ -36,6 +36,7 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -43,13 +44,17 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile name: 'SMSSDK-2.0.2', ext: 'aar'
     compile name: 'SMSSDKGUI-2.0.2', ext: 'aar'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:gridlayout-v7:23.2.1'
-    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:gridlayout-v7:23.3.0'
+    compile 'com.android.support:support-v4:23.3.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.zhy:okhttputils:2.3.9'
     compile files('libs/AMap_3DMap_V3.3.1_20160419.jar')
     compile files('libs/AMap_Location_V2.4.1_20160414.jar')
+    compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.4'
+    compile 'com.github.techery:ProperRatingBar:0.0.4'
 }

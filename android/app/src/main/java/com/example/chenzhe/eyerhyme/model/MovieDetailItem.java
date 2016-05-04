@@ -1,17 +1,17 @@
 package com.example.chenzhe.eyerhyme.model;
 
 /**
- * Created by chenzhe on 2016/5/3.
+ * Created by chenzhe on 2016/5/4.
  */
-public class MovieItem {
-//    “movie_id”: integer, 该电影的标识
+public class MovieDetailItem {
 //    “name”: string, 电影的名称
 //    “grade”: float, 电影的平均评分
 //    “duration”: integer, 电影的时长
 //    “release_date”: string, 该电影的上映时间
 //    “type”: integer, 该电影的类型
 //    “actors”: string, 该电影的主演
-    private int movie_id;
+//    “directors”: string, 该电影的导演
+//    “description”: string, 该电影的剧情介绍
     private String name;
     private float grade;
     private int duration;
@@ -19,14 +19,7 @@ public class MovieItem {
     private int type;
     private String actors;
     private String directors;
-
-    public int getMovie_id() {
-        return movie_id;
-    }
-
-    public void setMovie_id(int movie_id) {
-        this.movie_id = movie_id;
-    }
+    private String description;
 
     public String getName() {
         return name;
@@ -82,5 +75,13 @@ public class MovieItem {
 
     public void setDirectors(String directors) {
         this.directors = directors;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

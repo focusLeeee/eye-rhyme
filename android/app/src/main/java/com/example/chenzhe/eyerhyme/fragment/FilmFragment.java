@@ -2,6 +2,7 @@ package com.example.chenzhe.eyerhyme.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,11 +12,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.activity.MainActivity;
+import com.example.chenzhe.eyerhyme.activity.MovieDetailActivity;
+import com.example.chenzhe.eyerhyme.activity.MovieListActivity;
 import com.example.chenzhe.eyerhyme.adapter.TheatersNearbyAdapter;
 import com.example.chenzhe.eyerhyme.customInterface.viewController;
 import com.example.chenzhe.eyerhyme.model.MovieItem;
@@ -35,7 +39,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilmFragment extends Fragment implements viewController {
+public class FilmFragment extends Fragment implements viewController, View.OnClickListener {
 
 
     @Bind(R.id.viewFlipper)
@@ -68,6 +72,10 @@ public class FilmFragment extends Fragment implements viewController {
     ImageView ivArrow;
     @Bind(R.id.listview)
     ListView listview;
+    @Bind(R.id.tv_all_movies)
+    TextView tvAllMovies;
+    @Bind(R.id.rl_theater)
+    RelativeLayout rlTheater;
     private Animation slideLeftIn;
     private Animation slideLeftOut;
     private Animation slideRightIn;
@@ -102,12 +110,30 @@ public class FilmFragment extends Fragment implements viewController {
     private void init() {
         initViewFlipper();
         initMoviesAndTheaters();
+        initListener();
     }
 
     private void initViewFlipper() {
         viewFlipper.setInAnimation(slideLeftIn);
         viewFlipper.setOutAnimation(slideLeftOut);
         viewFlipper.startFlipping();
+    }
+
+    private void initListener() {
+        rlTheater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        tvAllMovies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getActivity(), MovieListActivity.class);
+                startActivity(it);
+            }
+        });
     }
 
     private void initMoviesAndTheaters() {
@@ -127,6 +153,10 @@ public class FilmFragment extends Fragment implements viewController {
         filmNames.add(tvPost4);
         filmNames.add(tvPost5);
         filmNames.add(tvPost6);
+
+        for (int i = 0; i < filmImages.size(); i++) {
+            filmImages.get(i).setOnClickListener(this);
+        }
 
         getMovies();
         getTheaters();
@@ -163,7 +193,7 @@ public class FilmFragment extends Fragment implements viewController {
                 ToastUtil.printToast(getActivity(), "获取电影失败");
                 return;
             }
-            ArrayList<MovieItem> movieItems = moviesResponse.movieItems;
+            ArrayList<MovieItem> movieItems = moviesResponse.theaters;
             for (int i = 0; i < movieItems.size() && i < filmNames.size(); i++) {
                 filmNames.get(i).setText(movieItems.get(i).getName());
             }
@@ -184,5 +214,18 @@ public class FilmFragment extends Fragment implements viewController {
     @Override
     public Context myContext() {
         return getActivity();
+    }
+
+    @Override
+    public void onClick(View v) {
+        ImageView temp = (ImageView)v;
+        for (int i = 0; i < filmImages.size(); i++) {
+            if (temp.equals(filmImages.get(i))) {
+                Intent it = new Intent(getActivity(), MovieDetailActivity.class);
+                it.putExtra("movie_id", moviesResponse.theaters.get(i).getMovie_id());
+                it.putExtra("name", filmNames.get(i).getText().toString());
+                startActivity(it);
+            }
+        }
     }
 }

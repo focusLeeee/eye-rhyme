@@ -79,7 +79,11 @@
                     android:src="@mipmap/head"/>
                 <TextView
                     android:id="@+id/tv_post1"
-                    android:layout_width="wrap_content"
+
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/iv_post1"
@@ -104,7 +108,10 @@
                     android:src="@mipmap/head"/>
                 <TextView
                     android:id="@+id/tv_post2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="5dp"
@@ -129,7 +136,10 @@
                     android:src="@mipmap/head"/>
                 <TextView
                     android:id="@+id/tv_post3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="5dp"
@@ -162,7 +172,10 @@
                     android:src="@mipmap/head"/>
                 <TextView
                     android:id="@+id/tv_post4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/iv_post4"
@@ -187,7 +200,10 @@
                     android:src="@mipmap/head"/>
                 <TextView
                     android:id="@+id/tv_post5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/iv_post5"
@@ -213,7 +229,10 @@
                 <TextView
                     android:id="@+id/tv_post6"
 
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/iv_post6"
@@ -223,8 +242,10 @@
             </RelativeLayout>
         </LinearLayout>
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tv_all_movies"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
             android:text="查看更多电影"
             android:textSize="18sp"
@@ -236,7 +257,7 @@
             android:id="@+id/rl_theater"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/button_selector"
             android:padding="8dp">
             <TextView
                 android:layout_width="60dp"
@@ -268,7 +289,8 @@
         <ListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
         </ListView>
 
