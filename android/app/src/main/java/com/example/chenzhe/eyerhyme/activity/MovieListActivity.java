@@ -143,11 +143,11 @@ public class MovieListActivity extends AppCompatActivity implements BGARefreshLa
             moviesResponse = new Gson().fromJson(response, getMoviesResponse.class);
             if (moviesResponse.status) {
                 if (movieItems == null) {
-                    movieItems = moviesResponse.theaters;
+                    movieItems = moviesResponse.movies;
                     movieListAdapter = new MovieListAdapter(movieItems, MovieListActivity.this);
                     listview.setAdapter(movieListAdapter);
                 } else {
-                    movieItems.addAll(moviesResponse.theaters);
+                    movieItems.addAll(moviesResponse.movies);
                     movieListAdapter.notifyDataSetChanged();
                 }
             } else {

@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
     @Override
     protected void onResume() {
         super.onResume();
-        mLocationClient.startLocation();
+//        mLocationClient.startLocation();
     }
 
     private void init() {
@@ -181,9 +181,11 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null) {
-            if (aMapLocation.getErrorCode() == 0) {
+            if (aMapLocation.getErrorCode() == 0 && longitude == 0) {
                 longitude = aMapLocation.getLongitude();
                 latitude = aMapLocation.getLatitude();
+                FilmFragment temp = (FilmFragment)fragments.get(0);
+                temp.getTheaters();
                 Log.i("loc", "longitude: " + longitude + " latitude: " + latitude);
             } else {
 

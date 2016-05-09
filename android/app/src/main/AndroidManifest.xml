@@ -70,7 +70,13 @@
         <activity android:name=".activity.ForgetPwActivity" />
         <activity android:name=".activity.ForgetPwNextActivity" />
         <activity android:name=".activity.MovieDetailActivity" />
-        <activity android:name=".activity.MovieListActivity"></activity>
+        <activity android:name=".activity.SeatActivity" />
+        <activity android:name=".activity.TheaterDetailActivity" />
+        <activity android:name=".activity.TheaterListActivity" />
+        <activity android:name=".activity.MovieListActivity" />
+        <activity android:name=".activity.ChoosingMovieAndDateActivity" />
+        <activity android:name=".activity.TheaterListActivity2" />
+        <activity android:name=".activity.ChoosingProductActivity"></activity>
     </application>
 
 </manifest>

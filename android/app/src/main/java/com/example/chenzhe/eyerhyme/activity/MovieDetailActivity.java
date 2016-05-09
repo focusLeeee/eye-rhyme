@@ -1,11 +1,12 @@
 package com.example.chenzhe.eyerhyme.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
@@ -53,11 +54,14 @@ public class MovieDetailActivity extends AppCompatActivity implements viewContro
     MyListView listview;
     @Bind(R.id.tv_more_comment)
     TextView tvMoreComment;
+    @Bind(R.id.bn_buy)
+    Button bnBuy;
 
     private String MovieDetailURL = "/movie/get_movie_detail";
     private String MovieCommentURL = "/movie/get_grades";
     private ArrayList<MovieCommentItem> commentItems;
     private CommentListAdapter commentListAdapter;
+    private MovieDetailItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,7 @@ public class MovieDetailActivity extends AppCompatActivity implements viewContro
         initViews();
         initToolbar();
     }
+
     private void initToolbar() {
 
         toolbar.setTitle("");
@@ -88,21 +93,30 @@ public class MovieDetailActivity extends AppCompatActivity implements viewContro
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void initViews() {
         getMovieComment();
         getMovieDetail();
 
+        bnBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(MovieDetailActivity.this, TheaterListActivity2.class);
+                it.putExtra("movie_id", getIntent().getIntExtra("movie_id", -1));
+                startActivity(it);
+            }
+        });
     }
 
     private void getMovieDetail() {
-        HashMap<String ,Object> map = new HashMap<>();
-        map.put("movie_id", getIntent().getIntExtra("movie_id",-1));
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("movie_id", getIntent().getIntExtra("movie_id", -1));
         PostUtil.newInstance().sendPost(this, MovieDetailURL, map);
     }
 
     private void getMovieComment() {
-        HashMap<String ,Object> map = new HashMap<>();
-        map.put("movie_id", getIntent().getIntExtra("movie_id",-1));
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("movie_id", getIntent().getIntExtra("movie_id", -1));
         PostUtil.newInstance().sendPost(this, MovieCommentURL, map);
     }
 
@@ -124,13 +138,13 @@ public class MovieDetailActivity extends AppCompatActivity implements viewContro
         } else if (url.equals(MovieDetailURL)) {
             MovieDetailResponse detailResponse = new Gson().fromJson(response, MovieDetailResponse.class);
             if (detailResponse.status) {
-                MovieDetailItem item = detailResponse.result;
-                tvActor.setText("主演："+item.getActors());
-                tvDirector.setText("导演："+item.getDirectors());
-                tvDateAndPeriod.setText(item.getRelease_date()+"/"+item.getDuration()+"分钟");
+                item = detailResponse.result;
+                tvActor.setText("主演：" + item.getActors());
+                tvDirector.setText("导演：" + item.getDirectors());
+                tvDateAndPeriod.setText(item.getRelease_date() + "/" + item.getDuration() + "分钟");
                 tvDiscription.setText(item.getDescription());
-                tvRating.setText(item.getGrade()+"");
-                ratingBar.setRating((int)(item.getGrade()));
+                tvRating.setText(item.getGrade() + "");
+                ratingBar.setRating((int) (item.getGrade()));
             } else {
                 ToastUtil.printToast(this, "获取电影详情失败");
             }

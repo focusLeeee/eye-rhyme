@@ -16,8 +16,10 @@
         android:layout_height="wrap_content"
         android:text="美国队长3"
         android:textSize="20dp"
+        android:singleLine="true"
         android:layout_alignTop="@+id/iv_post"
         android:layout_toRightOf="@+id/iv_post"
+        android:layout_toLeftOf="@+id/tv_grade"
         />
     <TextView
         android:id="@+id/tv_director"
