@@ -1,29 +1,29 @@
 package com.example.chenzhe.eyerhyme.activity;
 
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps.LocationSource;
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.adapter.MyFragmentAdapter;
 import com.example.chenzhe.eyerhyme.fragment.FilmFragment;
 import com.example.chenzhe.eyerhyme.fragment.MeetingFragment;
 import com.example.chenzhe.eyerhyme.fragment.NewsFragment;
 import com.example.chenzhe.eyerhyme.fragment.UserFragment;
-import com.mob.tools.gui.ViewPagerAdapter;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
     @Bind(R.id.tb_title)
     TextView tbTitle;
     @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    android.support.v7.widget.Toolbar toolbar;
     @Bind(R.id.pager)
     ViewPager pager;
     @Bind(R.id.rb_films)
@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 
     private ArrayList<Fragment> fragments;
     private boolean scroll;
-    public static double longitude;
-    public static double latitude;
+    public static double longitude = 0;
+    public static double latitude = 0;
     private AMapLocationClient mLocationClient;
     //声明定位回调监听器
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
     @Override
     protected void onResume() {
         super.onResume();
-        mLocationClient.startLocation();
+//        mLocationClient.startLocation();
     }
 
     private void init() {
@@ -78,6 +78,38 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
         initLocation();
         initPager();
         initRadioButton();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_add);
+        item.setVisible(false);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        int pos = pager.getCurrentItem();
+        MenuItem menuItem = menu.findItem(R.id.action_add);
+        if (pos == 2) {
+            menuItem.setVisible(true);
+        } else {
+            menuItem.setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_add) {
+            Intent it = new Intent(MainActivity.this, LaunchEventActivity.class);
+            startActivity(it);
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initLocation() {
@@ -160,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
                         break;
                 }
                 scroll = false;
+                MainActivity.this.invalidateOptionsMenu();
             }
 
             @Override
@@ -173,17 +206,19 @@ public class MainActivity extends AppCompatActivity implements AMapLocationListe
 
         toolbar.setTitle("");
         tbTitle.setText("Eye Rhyme");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(false);
-        getActionBar().setDisplayHomeAsUpEnabled(false);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null) {
-            if (aMapLocation.getErrorCode() == 0) {
+            if (aMapLocation.getErrorCode() == 0 && longitude < 1e-3) {
                 longitude = aMapLocation.getLongitude();
                 latitude = aMapLocation.getLatitude();
+                FilmFragment temp = (FilmFragment)fragments.get(0);
+                temp.getTheaters();
                 Log.i("loc", "longitude: " + longitude + " latitude: " + latitude);
             } else {
 

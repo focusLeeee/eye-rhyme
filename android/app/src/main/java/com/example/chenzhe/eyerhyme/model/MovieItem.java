@@ -18,6 +18,7 @@ public class MovieItem {
     private String release_date;
     private int type;
     private String actors;
+    private String directors;
 
     public int getMovie_id() {
         return movie_id;
@@ -73,5 +74,13 @@ public class MovieItem {
 
     public void setActors(String actors) {
         this.actors = actors;
+    }
+
+    public String getDirectors() {
+        return directors;
+    }
+
+    public void setDirectors(String directors) {
+        this.directors = directors;
     }
 }

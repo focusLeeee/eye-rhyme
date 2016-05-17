@@ -7,5 +7,5 @@ import android.content.Context;
  */
 public interface viewController {
     public void updateView(String url, String response);
-    public Context myContext();
+
 }

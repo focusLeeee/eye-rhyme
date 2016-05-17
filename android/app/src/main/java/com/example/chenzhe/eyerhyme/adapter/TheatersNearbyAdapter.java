@@ -14,6 +14,7 @@ import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.activity.MainActivity;
 import com.example.chenzhe.eyerhyme.model.TheaterItem;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -59,10 +60,11 @@ public class TheatersNearbyAdapter extends BaseAdapter {
         final View view = convertView;
         final TheaterItem theaterItem = theaterItems.get(position);
         ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.tvTheaterGrade.setText(theaterItem.getGrade()+"");
+        DecimalFormat df1 = new DecimalFormat("######0.0");
+        viewHolder.tvTheaterGrade.setText(df1.format(theaterItem.getGrade())+"");
         viewHolder.tvTheaterLoc.setText(theaterItem.getLocation());
         viewHolder.tvTheaterName.setText(theaterItem.getName());
-        viewHolder.tvTheaterPrice.setText(theaterItem.getLowest_price()+"");
+        viewHolder.tvTheaterPrice.setText("￥"+theaterItem.getLowest_price()+"起");
         LatLng st = new LatLng(MainActivity.latitude, MainActivity.longitude);
         LatLng ed = new LatLng(theaterItem.getLatitude(), theaterItem.getLongitude());
         float dis = AMapUtils.calculateLineDistance(st, ed)/1000;

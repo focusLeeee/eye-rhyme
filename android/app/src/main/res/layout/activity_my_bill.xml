@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.example.chenzhe.eyerhyme.activity.MyBillActivity">
+    <include layout="@layout/toolbar_support"/>
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:tl_divider_color="@color/colorPrimary"
+        app:tl_divider_padding="13dp"
+        app:tl_divider_width="1dp"
+        android:background="@drawable/button_selector"
+        app:tl_indicator_color="@color/white"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="@color/colorPrimary"
+        app:tl_textUnselectColor="@color/gray"
+        >
+        </com.flyco.tablayout.SlidingTabLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

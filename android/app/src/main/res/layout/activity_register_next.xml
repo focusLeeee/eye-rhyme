@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.chenzhe.eyerhyme.activity.RegisterNextActivity">
-    <include layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
+    <include layout="@layout/toolbar_support"/>
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:layout_width="80dp"

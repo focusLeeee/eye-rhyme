@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.customInterface.viewController;
@@ -47,6 +47,7 @@ public class ForgetPwActivity extends AppCompatActivity implements viewControlle
     Button bnNext;
 
     private static String chechPhoneUrl = "/account/check_validty";
+    private int user_id;
     private PostUtil postUtil;
     private boolean checking;
     private EventHandler eventHandler;
@@ -99,6 +100,7 @@ public class ForgetPwActivity extends AppCompatActivity implements viewControlle
                         Log.i("sms", "verify success");
                         Intent it = new Intent(ForgetPwActivity.this, ForgetPwNextActivity.class);
                         it.putExtra("phone", tvPhone.getText().toString());
+                        it.putExtra("id", user_id);
                         startActivity(it);
                         ForgetPwActivity.this.finish();
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
@@ -166,9 +168,9 @@ public class ForgetPwActivity extends AppCompatActivity implements viewControlle
 
         toolbar.setTitle("");
         tbTitle.setText("找回密码");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -186,6 +188,7 @@ public class ForgetPwActivity extends AppCompatActivity implements viewControlle
             public void run() {
                 int count = 60;
                 for (int i = count; i >= 0; i--) {
+                    if (!checking) i = 0;
                     Message message = new Message();
                     message.what = 0;
                     message.arg1 = i;
@@ -220,10 +223,11 @@ public class ForgetPwActivity extends AppCompatActivity implements viewControlle
                 if (json.getBoolean("status")) {
                     int state = json.getInt("state");
                     if (state == 1) {
-                        ToastUtil.printToast(this, "该账号已存在");
-                        checking = false;
-                    } else {
+                        user_id = json.getInt("user_id");
                         SMSSDK.getVerificationCode("86", tvPhone.getText().toString());
+                    } else {
+                        ToastUtil.printToast(this, "账号尚未注册");
+                        checking = false;
                     }
                 } else {
                     ToastUtil.printToast(this, "操作失败");
@@ -235,8 +239,5 @@ public class ForgetPwActivity extends AppCompatActivity implements viewControlle
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
+
 }

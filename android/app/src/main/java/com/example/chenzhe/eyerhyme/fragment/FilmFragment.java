@@ -2,6 +2,8 @@ package com.example.chenzhe.eyerhyme.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,13 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.example.chenzhe.eyerhyme.R;
+import com.example.chenzhe.eyerhyme.activity.ChoosingMovieAndDateActivity;
 import com.example.chenzhe.eyerhyme.activity.MainActivity;
+import com.example.chenzhe.eyerhyme.activity.MovieDetailActivity;
+import com.example.chenzhe.eyerhyme.activity.MovieListActivity;
+import com.example.chenzhe.eyerhyme.activity.TheaterListActivity;
 import com.example.chenzhe.eyerhyme.adapter.TheatersNearbyAdapter;
 import com.example.chenzhe.eyerhyme.customInterface.viewController;
 import com.example.chenzhe.eyerhyme.model.MovieItem;
@@ -25,17 +33,20 @@ import com.example.chenzhe.eyerhyme.model.getMoviesResponse;
 import com.example.chenzhe.eyerhyme.util.PostUtil;
 import com.example.chenzhe.eyerhyme.util.ToastUtil;
 import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.BitmapCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FilmFragment extends Fragment implements viewController {
+public class FilmFragment extends Fragment implements viewController, View.OnClickListener {
 
 
     @Bind(R.id.viewFlipper)
@@ -68,6 +79,10 @@ public class FilmFragment extends Fragment implements viewController {
     ImageView ivArrow;
     @Bind(R.id.listview)
     ListView listview;
+    @Bind(R.id.tv_all_movies)
+    TextView tvAllMovies;
+    @Bind(R.id.rl_theater)
+    RelativeLayout rlTheater;
     private Animation slideLeftIn;
     private Animation slideLeftOut;
     private Animation slideRightIn;
@@ -102,12 +117,42 @@ public class FilmFragment extends Fragment implements viewController {
     private void init() {
         initViewFlipper();
         initMoviesAndTheaters();
+        initListener();
+
     }
 
     private void initViewFlipper() {
         viewFlipper.setInAnimation(slideLeftIn);
         viewFlipper.setOutAnimation(slideLeftOut);
         viewFlipper.startFlipping();
+    }
+
+    private void initListener() {
+        rlTheater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getActivity(), TheaterListActivity.class);
+                startActivity(it);
+            }
+        });
+
+        tvAllMovies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getActivity(), MovieListActivity.class);
+                startActivity(it);
+            }
+        });
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TheaterItem item = theatersNearbyResponse.theaters.get(position);
+                Intent it = new Intent(getActivity(), ChoosingMovieAndDateActivity.class);
+                it.putExtra("theater", item);
+                startActivity(it);
+            }
+        });
     }
 
     private void initMoviesAndTheaters() {
@@ -128,8 +173,14 @@ public class FilmFragment extends Fragment implements viewController {
         filmNames.add(tvPost5);
         filmNames.add(tvPost6);
 
+        for (int i = 0; i < filmImages.size(); i++) {
+            filmImages.get(i).setOnClickListener(this);
+        }
+
         getMovies();
+
         getTheaters();
+
     }
 
     private void getMovies() {
@@ -137,13 +188,14 @@ public class FilmFragment extends Fragment implements viewController {
         PostUtil.newInstance().sendPost(FilmFragment.this, getMovies, map);
     }
 
-    private void getTheaters() {
+    public void getTheaters() {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("theater_id", 0);
         map.put("longitude", MainActivity.longitude);
         map.put("latitude", MainActivity.latitude);
         PostUtil.newInstance().sendPost(FilmFragment.this, getTheatersNearby, map);
     }
+
+
 
     @Override
     public void onDestroyView() {
@@ -163,9 +215,10 @@ public class FilmFragment extends Fragment implements viewController {
                 ToastUtil.printToast(getActivity(), "获取电影失败");
                 return;
             }
-            ArrayList<MovieItem> movieItems = moviesResponse.movieItems;
+            ArrayList<MovieItem> movieItems = moviesResponse.movies;
             for (int i = 0; i < movieItems.size() && i < filmNames.size(); i++) {
                 filmNames.get(i).setText(movieItems.get(i).getName());
+                PostUtil.newInstance().imageGET(filmImages.get(i), "movie", movieItems.get(i).getMovie_id());
             }
 
         } else if (url.equals(getTheatersNearby)) {
@@ -177,12 +230,22 @@ public class FilmFragment extends Fragment implements viewController {
             ArrayList<TheaterItem> theaterItems = theatersNearbyResponse.theaters;
 
             theatersNearbyAdapter = new TheatersNearbyAdapter(theaterItems, getContext());
-            listview.setAdapter(theatersNearbyAdapter);
+            if (listview != null)
+                listview.setAdapter(theatersNearbyAdapter);
         }
     }
 
+
     @Override
-    public Context myContext() {
-        return getActivity();
+    public void onClick(View v) {
+        ImageView temp = (ImageView)v;
+        for (int i = 0; i < filmImages.size(); i++) {
+            if (temp.equals(filmImages.get(i))) {
+                Intent it = new Intent(getActivity(), MovieDetailActivity.class);
+                it.putExtra("movie_id", moviesResponse.movies.get(i).getMovie_id());
+                it.putExtra("name", filmNames.get(i).getText().toString());
+                startActivity(it);
+            }
+        }
     }
 }

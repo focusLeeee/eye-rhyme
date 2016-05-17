@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:background="@drawable/button_selector"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_head"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/head"
+        app:riv_corner_radius="10dp"
+        />
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="zero5"
+        android:id="@+id/tv_name"
+        android:gravity="center"
+
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/iv_head"
+        android:textColor="@color/blue"/>
+    <ImageView
+        android:id="@+id/iv_film"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+
+        android:src="@mipmap/iv_film"
+        android:layout_toRightOf="@+id/iv_head"
+        android:layout_marginLeft="15dp"/>
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_film"
+        android:text="美国队长3"
+        android:lines="1"
+        android:ems="8"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/iv_head"
+        android:layout_toRightOf="@id/iv_film"
+        android:layout_marginLeft="13dp"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/iv_loc"
+        android:src="@mipmap/iv_loc"
+        android:layout_below="@+id/iv_film"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@+id/iv_film"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_loc"
+        android:text="广州市番禺区小谷围"
+        android:textColor="@color/gray2"
+        android:layout_alignLeft="@+id/tv_film"
+        android:layout_alignTop="@+id/iv_loc"
+        android:layout_below="@+id/tv_film"
+       />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@mipmap/iv_time"
+        android:id="@+id/iv_time"
+        android:layout_below="@+id/iv_loc"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@+id/iv_loc"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_time"
+        android:text="4.24 19:00"
+        android:layout_alignLeft="@id/tv_loc"
+        android:layout_below="@id/tv_loc"
+        android:layout_alignTop="@+id/iv_time"
+        android:textColor="@color/gray2"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="进行中"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/tv_film"
+        android:id="@+id/tv_state"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3人/6人"
+        android:id="@+id/tv_join_num"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_time"/>
+</RelativeLayout>

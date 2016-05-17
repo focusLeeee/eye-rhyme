@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.customInterface.viewController;
@@ -73,9 +73,9 @@ public class LoginActivity extends AppCompatActivity implements viewController {
     private void initToolbar() {
         toolbar.setTitle("");
         tbTitle.setText("登录");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(false);
-        getActionBar().setDisplayHomeAsUpEnabled(false);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     private void initButton() {
@@ -176,8 +176,9 @@ public class LoginActivity extends AppCompatActivity implements viewController {
                 if (json.getBoolean("status")) {
                     int id = json.getInt("id");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt("id", id);
+                    editor.putInt("user_id", id);
                     editor.putString("salt", salt);
+                    editor.putString("phone", tvUsername.getText().toString());
                     editor.putString("password", password);
                     editor.commit();
                     Intent it = new Intent(LoginActivity.this, MainActivity.class);
@@ -192,8 +193,4 @@ public class LoginActivity extends AppCompatActivity implements viewController {
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
 }

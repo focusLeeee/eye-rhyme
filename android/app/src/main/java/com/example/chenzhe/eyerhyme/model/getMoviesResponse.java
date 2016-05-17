@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 public class getMoviesResponse {
     public boolean status;
-    public ArrayList<MovieItem> movieItems;
+    public ArrayList<MovieItem> movies;
 }
