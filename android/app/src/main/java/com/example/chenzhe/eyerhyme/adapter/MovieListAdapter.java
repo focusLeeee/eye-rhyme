@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.model.MovieItem;
+import com.example.chenzhe.eyerhyme.util.PostUtil;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,7 @@ public class MovieListAdapter extends BaseAdapter {
         viewHolder.tvGrade.setText(movieItem.getGrade()+"");
         viewHolder.tvName.setText(movieItem.getName());
         viewHolder.tvReleaseDate.setText(movieItem.getRelease_date());
+        PostUtil.newInstance().imageGET(viewHolder.ivPost, "movie", movieItem.getMovie_id());
         return convertView;
     }
 

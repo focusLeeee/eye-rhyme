@@ -47,7 +47,7 @@ public class TheaterCommentAdapter extends ArrayAdapter<TheaterCommentItem>  {
         stars[4] = (ImageView)newView.findViewById(R.id.comment_star_5);
         TextView content = (TextView)newView.findViewById(R.id.theater_comment_content);
         TextView time = (TextView)newView.findViewById(R.id.theater_comment_time);
-        name.setText(theaterCommentItem.getUser_name());
+        name.setText(theaterCommentItem.getName());
         int num = (int)theaterCommentItem.getGrade()/2, i;
         Log.e("num", num+"");
         for (i = 0; i < num; i++)
@@ -55,7 +55,7 @@ public class TheaterCommentAdapter extends ArrayAdapter<TheaterCommentItem>  {
         for ( ; i < 5; i++)
             stars[i].setImageResource(R.mipmap.unstar);
         content.setText(theaterCommentItem.getContent());
-        time.setText("发表于: "+theaterCommentItem.getTime());
+        time.setText("发表于: "+theaterCommentItem.getDate_time().substring(0, theaterCommentItem.getDate_time().length()-2));
         return newView;
     }
 }

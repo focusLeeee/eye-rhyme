@@ -19,7 +19,7 @@ public class TheaterItem implements Serializable {
     private String name;
     private String location;
     private int lowest_price;
-    private float grade;
+    private double grade;
     private double longitude;
     private double latitude;
     public TheaterItem (int t_id, String t_name, String t_address, int t_lowestPrice,
@@ -65,11 +65,11 @@ public class TheaterItem implements Serializable {
         this.lowest_price = lowest_price;
     }
 
-    public float getGrade() {
+    public double getGrade() {
         return grade;
     }
 
-    public void setGrade(float grade) {
+    public void setGrade(double grade) {
         this.grade = grade;
     }
 

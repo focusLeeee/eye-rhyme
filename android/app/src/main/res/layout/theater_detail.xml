@@ -299,6 +299,7 @@
                     android:layout_toEndOf="@+id/character1_icon"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"/>
             </RelativeLayout>
 
@@ -452,8 +453,7 @@
             android:layout_below="@+id/tips_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            >
         </com.example.chenzhe.eyerhyme.view.MyListView>
 
     </LinearLayout>

@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.customInterface.viewController;
@@ -58,9 +58,9 @@ public class ForgetPwNextActivity extends AppCompatActivity implements viewContr
 
         toolbar.setTitle("");
         tbTitle.setText("重置密码");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void initListener() {
@@ -129,8 +129,4 @@ public class ForgetPwNextActivity extends AppCompatActivity implements viewContr
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
 }

@@ -118,7 +118,7 @@ public class FilmFragment extends Fragment implements viewController, View.OnCli
         initViewFlipper();
         initMoviesAndTheaters();
         initListener();
-        getImage();
+
     }
 
     private void initViewFlipper() {
@@ -179,6 +179,8 @@ public class FilmFragment extends Fragment implements viewController, View.OnCli
 
         getMovies();
 
+        getTheaters();
+
     }
 
     private void getMovies() {
@@ -193,21 +195,7 @@ public class FilmFragment extends Fragment implements viewController, View.OnCli
         PostUtil.newInstance().sendPost(FilmFragment.this, getTheatersNearby, map);
     }
 
-    private void getImage() {
-        OkHttpUtils.get().url("http://222.200.180.59:8080/uploadFiles-1.0/image/download?name=user_122")
-                .build()
-                .execute(new BitmapCallback() {
-                    @Override
-                    public void onError(Call call, Exception e) {
-                        ToastUtil.printToast(getActivity(), "error!");
-                    }
 
-                    @Override
-                    public void onResponse(Bitmap response) {
-                        ivPost1.setImageBitmap(response);
-                    }
-                });
-    }
 
     @Override
     public void onDestroyView() {
@@ -230,6 +218,7 @@ public class FilmFragment extends Fragment implements viewController, View.OnCli
             ArrayList<MovieItem> movieItems = moviesResponse.movies;
             for (int i = 0; i < movieItems.size() && i < filmNames.size(); i++) {
                 filmNames.get(i).setText(movieItems.get(i).getName());
+                PostUtil.newInstance().imageGET(filmImages.get(i), "movie", movieItems.get(i).getMovie_id());
             }
 
         } else if (url.equals(getTheatersNearby)) {
@@ -241,14 +230,11 @@ public class FilmFragment extends Fragment implements viewController, View.OnCli
             ArrayList<TheaterItem> theaterItems = theatersNearbyResponse.theaters;
 
             theatersNearbyAdapter = new TheatersNearbyAdapter(theaterItems, getContext());
-            listview.setAdapter(theatersNearbyAdapter);
+            if (listview != null)
+                listview.setAdapter(theatersNearbyAdapter);
         }
     }
 
-    @Override
-    public Context myContext() {
-        return getActivity();
-    }
 
     @Override
     public void onClick(View v) {

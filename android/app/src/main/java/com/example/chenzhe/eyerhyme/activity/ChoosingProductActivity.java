@@ -9,13 +9,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.fragment.ProductFragment;
 import com.example.chenzhe.eyerhyme.model.TheaterItem;
 import com.flyco.tablayout.SlidingTabLayout;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,7 +73,8 @@ public class ChoosingProductActivity extends AppCompatActivity {
 
     private void initTheater() {
         item = (TheaterItem) getIntent().getSerializableExtra("theater");
-        tvGrade.setText(item.getGrade() + "");
+        DecimalFormat df = new DecimalFormat("#######0.0");
+        tvGrade.setText(df.format(item.getGrade()) + "");
         tvLoc.setText(item.getLocation());
         tvName.setText(item.getName());
     }
@@ -106,9 +108,9 @@ public class ChoosingProductActivity extends AppCompatActivity {
 
         toolbar.setTitle("");
         tbTitle.setText("场次");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -124,6 +126,7 @@ public class ChoosingProductActivity extends AppCompatActivity {
         Fragment fragment = new ProductFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("theater_id", theater_id);
+        bundle.putString("theater_name", item.getName());
         bundle.putInt("movie_id", getIntent().getIntExtra("movie_id", -1));
         bundle.putString("date", date);
         fragment.setArguments(bundle);

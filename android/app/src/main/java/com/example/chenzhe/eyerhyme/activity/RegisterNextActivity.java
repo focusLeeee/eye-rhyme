@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.customInterface.viewController;
@@ -81,9 +81,9 @@ public class RegisterNextActivity extends AppCompatActivity implements viewContr
     private void initToolbar() {
         toolbar.setTitle("");
         tbTitle.setText("注册信息");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void register() {
@@ -115,9 +115,11 @@ public class RegisterNextActivity extends AppCompatActivity implements viewContr
             if (json.getBoolean("status")) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 salt = json.getString("salt");
-                editor.putInt("id", json.getInt("id"));
+                editor.putInt("user_id", json.getInt("id"));
+                editor.putString("phone", getIntent().getStringExtra("phone"));
                 editor.putString("salt", salt);
                 editor.putString("password", LoginActivity.Md5(tvPw.getText().toString() + salt));
+                editor.commit();
                 Intent it = new Intent(RegisterNextActivity.this, MainActivity.class);
                 startActivity(it);
                 RegisterNextActivity.this.finish();
@@ -130,8 +132,4 @@ public class RegisterNextActivity extends AppCompatActivity implements viewContr
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
 }

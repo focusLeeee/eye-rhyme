@@ -398,7 +398,7 @@
     </RelativeLayout>
 
     <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:background="#708090" android:text="座位选好了" android:textColor="#FFFFFF"
+        android:background="#708090" android:text="确定  ¥0" android:textColor="#FFFFFF"
         android:layout_below="@+id/seats" android:layout_marginTop="20dp"
         android:paddingLeft="20dp" android:paddingRight="20dp"
         android:layout_centerHorizontal="true" android:id="@+id/submit_seat"/>

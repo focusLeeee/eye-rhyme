@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".activity.TheaterListActivity" >
 
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar_support"/>
     <cn.bingoogolapple.refreshlayout.BGARefreshLayout
         android:id="@+id/refreshlayout"
         android:layout_width="match_parent"

@@ -6,11 +6,11 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.chenzhe.eyerhyme.activity.LoginActivity">
-    <include layout="@layout/toolbar"
+    <include layout="@layout/toolbar_support"
         android:id="@+id/toolbar"/>
 
     <LinearLayout
-        android:layout_below="@id/toolbar"
+        android:layout_below="@+id/toolbar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:focusable="true"

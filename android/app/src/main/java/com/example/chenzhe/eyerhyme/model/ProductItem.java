@@ -1,9 +1,11 @@
 package com.example.chenzhe.eyerhyme.model;
 
+import java.io.Serializable;
+
 /**
  * Created by chenzhe on 2016/5/5.
  */
-public class ProductItem {
+public class ProductItem implements Serializable{
 //    “product_id”: integer, 电影产品的唯一标识
 //    “price”: integer, 电影票价格
 //    “round”: integer, 放映场次

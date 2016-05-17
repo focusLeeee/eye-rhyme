@@ -1,18 +1,17 @@
 package com.example.chenzhe.eyerhyme.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.adapter.ImagePagerAdapter;
@@ -26,6 +25,7 @@ import com.example.chenzhe.eyerhyme.util.ToastUtil;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,6 +62,10 @@ public class ChoosingMovieAndDateActivity extends AppCompatActivity implements v
     SlidingTabLayout indicator;
     @Bind(R.id.rl_theater)
     RelativeLayout rlTheater;
+    @Bind(R.id.tv_release_date)
+    TextView tvReleaseDate;
+    @Bind(R.id.rl_film)
+    RelativeLayout rlFilm;
 
     private ArrayList<View> views;
     private ArrayList<MovieItem> movieItems;
@@ -97,7 +101,8 @@ public class ChoosingMovieAndDateActivity extends AppCompatActivity implements v
 
     private void initTheater() {
         item = (TheaterItem) getIntent().getSerializableExtra("theater");
-        tvGrade.setText(item.getGrade() + "");
+        DecimalFormat df = new DecimalFormat("#######0.0");
+        tvGrade.setText(df.format(item.getGrade()) + "");
         tvLoc.setText(item.getLocation());
         tvName.setText(item.getName());
     }
@@ -141,6 +146,7 @@ public class ChoosingMovieAndDateActivity extends AppCompatActivity implements v
         Fragment fragment = new ProductFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("theater_id", theater_id);
+        bundle.putString("theater_name", item.getName());
         bundle.putString("date", date);
         fragment.setArguments(bundle);
         fragments.add(fragment);
@@ -150,9 +156,9 @@ public class ChoosingMovieAndDateActivity extends AppCompatActivity implements v
 
         toolbar.setTitle("");
         tbTitle.setText("影院");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -186,7 +192,7 @@ public class ChoosingMovieAndDateActivity extends AppCompatActivity implements v
                     views.add(temp);
                 }
 
-                ImagePagerAdapter adapter = new ImagePagerAdapter(views);
+                ImagePagerAdapter adapter = new ImagePagerAdapter(views, movieItems);
 
                 viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
@@ -218,17 +224,23 @@ public class ChoosingMovieAndDateActivity extends AppCompatActivity implements v
     }
 
     private void updateMovieInf(int position) {
-        MovieItem item = movieItems.get(position);
+        final MovieItem item = movieItems.get(position);
         tvMovieName.setText(item.getName());
         tvMovieGrade.setText(item.getGrade() + "");
+        tvReleaseDate.setText(item.getRelease_date()+"上映");
+        rlFilm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(ChoosingMovieAndDateActivity.this, MovieDetailActivity.class);
+                it.putExtra("movie_id", item.getMovie_id());
+                it.putExtra("name", item.getName());
+                startActivity(it);
+            }
+        });
         for (int i = 0; i < fragments.size(); i++) {
             ProductFragment fragment = (ProductFragment) fragments.get(i);
             fragment.getProducts(item.getMovie_id());
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
 }

@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.chenzhe.eyerhyme"
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -19,6 +19,15 @@ android {
             storePassword "zero6775"
             keyAlias "eyetheme"
             keyPassword "zero6775"
+        }
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src/main/java'
+                srcDir 'src/main/java-gen'
+            }
         }
     }
 
@@ -43,12 +52,14 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':slideDateTimePicker')
     testCompile 'junit:junit:4.12'
     compile name: 'SMSSDK-2.0.2', ext: 'aar'
     compile files('libs/MobCommons-2016.0303.1229.jar')
     compile files('libs/MobTools-2016.0303.1229.jar')
     compile files('libs/AMap_3DMap_V3.3.1_20160419.jar')
     compile files('libs/AMap_Location_V2.4.1_20160414.jar')
+    compile files('libs/AMap_Search_V3.2.1_20160308.jar')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:gridlayout-v7:23.3.0'
     compile 'com.jakewharton:butterknife:7.0.1'
@@ -56,8 +67,11 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.zhy:okhttputils:2.3.9'
     compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile 'org.greenrobot:greendao:2.2.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.4'
     compile 'com.github.techery:ProperRatingBar:0.0.4'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.2@aar'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.android.support:support-v4:23.3.0'
 }

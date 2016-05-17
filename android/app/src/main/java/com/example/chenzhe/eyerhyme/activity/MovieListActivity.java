@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.adapter.MovieListAdapter;
@@ -45,7 +45,7 @@ public class MovieListActivity extends AppCompatActivity implements BGARefreshLa
     private String getMovies = "/movie/get_movies";
     private getMoviesResponse moviesResponse;
     private MovieListAdapter movieListAdapter;
-    private ArrayList<MovieItem> movieItems;
+    protected ArrayList<MovieItem> movieItems;
 
 
     @Override
@@ -69,9 +69,9 @@ public class MovieListActivity extends AppCompatActivity implements BGARefreshLa
 
         toolbar.setTitle("");
         tbTitle.setText("电影列表");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class MovieListActivity extends AppCompatActivity implements BGARefreshLa
         initListview();
     }
 
-    private void initListview() {
+    protected void initListview() {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -157,8 +157,4 @@ public class MovieListActivity extends AppCompatActivity implements BGARefreshLa
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
 }

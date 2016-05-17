@@ -2,6 +2,8 @@ package com.example.chenzhe.eyerhyme.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,10 +15,23 @@ import android.widget.Toast;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.customInterface.viewController;
+import com.example.chenzhe.eyerhyme.model.MovieDetailResponse;
+import com.example.chenzhe.eyerhyme.model.MovieProductItem;
+import com.example.chenzhe.eyerhyme.model.ProductItem;
+import com.example.chenzhe.eyerhyme.model.getSeatsResponse;
+import com.example.chenzhe.eyerhyme.util.PostUtil;
+import com.example.chenzhe.eyerhyme.util.ToastUtil;
+import com.example.chenzhe.eyerhyme.util.TransferUtil;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class SeatActivity extends Activity implements viewController {
+    private String getMovieURL = "/movie/get_movie_detail";
+    private String getSeatsURL = "/movie_product/get_seats";
     private Button[] seat = new Button[64]; // 64个座位
     private short[] status = new short[64]; // 座位状态：-1代表已售，0代表可选，1代表已选
     private ImageView back;                 // 返回上一页
@@ -25,7 +40,13 @@ public class SeatActivity extends Activity implements viewController {
     private TextView movie_time;            // 电影时间
     private TextView movie_description;     // 电影简要描述
     private Button submit;                  // 选定座位，提交
-    private static int count = 0;           // 已选座位数
+    private int movie_id;
+    private ProductItem item;
+    private SharedPreferences sharedPreferences;
+    private int count = 0;           // 已选座位数
+
+    private int real_price;
+    public final static String SER_KEY = "com.seats.ser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +57,18 @@ public class SeatActivity extends Activity implements viewController {
         setView();
     }
 
+    private void getMovie() {
+        HashMap<String , Object> map = new HashMap<>();
+        map.put("movie_id", movie_id);
+        PostUtil.newInstance().sendPost(this, getMovieURL, map);
+    }
+
+    private void getSeats() {
+        HashMap<String , Object> map = new HashMap<>();
+        map.put("product_id", item.getProduct_id());
+        PostUtil.newInstance().sendPost(this, getSeatsURL, map);
+    }
+
     private void setView() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +76,14 @@ public class SeatActivity extends Activity implements viewController {
                 finish();
             }
         });
+        theater_name.setText(getIntent().getStringExtra("theater_name"));
+        movie_id = getIntent().getIntExtra("movie_id",-1);
+        getMovie();
+        item = (ProductItem)getIntent().getSerializableExtra("product");
+        getSeats();
+        real_price = item.getPrice()-item.getDiscount();
+        movie_time.setText(getIntent().getStringExtra("date")+"  "+ TransferUtil.transferRound(item.getRound()));
+        movie_description.setText("");
 
         /*
         theater_name.setText();
@@ -62,6 +103,7 @@ public class SeatActivity extends Activity implements viewController {
                         seat[index].setBackgroundColor(Color.rgb(30, 144, 255));
                         count++;
                         submit.setBackgroundColor(Color.rgb(30, 144, 255));
+
                     } else if (status[index] == 1) {
                         status[index] = 0;
                         seat[index].setBackgroundColor(Color.rgb(255, 255, 255));
@@ -69,21 +111,36 @@ public class SeatActivity extends Activity implements viewController {
                         if (count == 0)
                             submit.setBackgroundColor(Color.rgb(112, 128, 144));
                     }
+                    submit.setText("确定 $"+(count*real_price));
                 }
             });
         }
 
+        // 跳转到确认订单页面，传递的对象需要改
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (count > 0) {
-                    // 提交
+                    //
+                    int[] seats = new int[count];
+                    for (int i = 0, index = 0; i < 64; i++) {
+                        if (status[i] == 1)
+                            seats[index++] = i;
+                    }
+                    MovieProductItem product = new MovieProductItem(movie_name.getText().toString(), theater_name.getText().toString(), item.getHall()+"号厅",
+                            movie_time.getText().toString(), "", seats, item.getPrice(), count, item.getDiscount()*100/item.getPrice(), 0);
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("product_id", item.getProduct_id());
+                    bundle.putInt("movie_id", movie_id);
+                    bundle.putSerializable(SER_KEY, product);
+                    bundle.putInt("total", count*real_price);
+                    intent.setClass(SeatActivity.this, ConfirmOrderActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             }
         });
-    }
-    private void getMovieInfo() {
-
     }
     @Override
     public void updateView(String url, String response) {
@@ -92,14 +149,26 @@ public class SeatActivity extends Activity implements viewController {
             return;
         }
         try {
-            // code
+            if (url.equals(getMovieURL)) {
+                MovieDetailResponse detail = new Gson().fromJson(response, MovieDetailResponse.class);
+                if (detail.status)
+                    movie_name.setText(detail.result.getName());
+            } else if (url.equals(getSeatsURL)) {
+                getSeatsResponse detail = new Gson().fromJson(response, getSeatsResponse.class);
+                if (detail.status) {
+                    ArrayList<Integer> temp = detail.result;
+                    for (int i = 0; i < temp.size(); i++) {
+                        int pos = temp.get(i);
+                        status[pos] = 2;
+                        seat[pos].setBackgroundColor(Color.rgb(7*16,8*16,9*16));
+                    }
+                } else {
+                    ToastUtil.printToast(this, "获取座位信息失败");
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    @Override
-    public Context myContext() {
-        return this;
     }
 
     private void bindView() {

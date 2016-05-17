@@ -2,14 +2,16 @@ package com.example.chenzhe.eyerhyme.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.adapter.CommentListAdapter;
@@ -18,8 +20,11 @@ import com.example.chenzhe.eyerhyme.model.MovieCommentItem;
 import com.example.chenzhe.eyerhyme.model.MovieCommentResponse;
 import com.example.chenzhe.eyerhyme.model.MovieDetailItem;
 import com.example.chenzhe.eyerhyme.model.MovieDetailResponse;
+import com.example.chenzhe.eyerhyme.model.MovieItem;
+import com.example.chenzhe.eyerhyme.model.getMoviesResponse;
 import com.example.chenzhe.eyerhyme.util.PostUtil;
 import com.example.chenzhe.eyerhyme.util.ToastUtil;
+import com.example.chenzhe.eyerhyme.util.TransferUtil;
 import com.example.chenzhe.eyerhyme.view.MyListView;
 import com.google.gson.Gson;
 
@@ -42,8 +47,6 @@ public class MovieDetailActivity extends AppCompatActivity implements viewContro
     ProperRatingBar ratingBar;
     @Bind(R.id.tv_rating)
     TextView tvRating;
-    @Bind(R.id.tv_date_and_period)
-    TextView tvDateAndPeriod;
     @Bind(R.id.tv_director)
     TextView tvDirector;
     @Bind(R.id.tv_actor)
@@ -56,33 +59,61 @@ public class MovieDetailActivity extends AppCompatActivity implements viewContro
     TextView tvMoreComment;
     @Bind(R.id.bn_buy)
     Button bnBuy;
+    @Bind(R.id.tv_date)
+    TextView tvDate;
+    @Bind(R.id.tv_period)
+    TextView tvPeriod;
+    @Bind(R.id.tv_type)
+    TextView tvType;
+    @Bind(R.id.iv_collect)
+    ImageView ivCollect;
+    @Bind(R.id.tv_collect)
+    TextView tvCollect;
+    @Bind(R.id.rl_collect)
+    RelativeLayout rlCollect;
+    @Bind(R.id.iv_comment)
+    ImageView ivComment;
+    @Bind(R.id.tv_comment)
+    TextView tvComment;
+    @Bind(R.id.rl_comment)
+    RelativeLayout rlComment;
 
     private String MovieDetailURL = "/movie/get_movie_detail";
     private String MovieCommentURL = "/movie/get_grades";
+
+    private String userCollectURL = "";
     private ArrayList<MovieCommentItem> commentItems;
     private CommentListAdapter commentListAdapter;
     private MovieDetailItem item;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
+        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         init();
     }
 
     private void init() {
-        initViews();
+//        initViews();
         initToolbar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initViews();
     }
 
     private void initToolbar() {
 
         toolbar.setTitle("");
         tbTitle.setText(getIntent().getStringExtra("name"));
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -106,11 +137,24 @@ public class MovieDetailActivity extends AppCompatActivity implements viewContro
                 startActivity(it);
             }
         });
+
+        rlComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(MovieDetailActivity.this, WritingMovieCommentActivity.class);
+                it.putExtra("movie_id", getIntent().getIntExtra("movie_id",-1));
+                startActivity(it);
+            }
+        });
     }
+
+
 
     private void getMovieDetail() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("movie_id", getIntent().getIntExtra("movie_id", -1));
+        int movie_id = getIntent().getIntExtra("movie_id", -1);
+        map.put("movie_id", movie_id);
+        PostUtil.newInstance().imageGET(ivPost, "movie", movie_id);
         PostUtil.newInstance().sendPost(this, MovieDetailURL, map);
     }
 
@@ -139,11 +183,14 @@ public class MovieDetailActivity extends AppCompatActivity implements viewContro
             MovieDetailResponse detailResponse = new Gson().fromJson(response, MovieDetailResponse.class);
             if (detailResponse.status) {
                 item = detailResponse.result;
-                tvActor.setText("主演：" + item.getActors());
-                tvDirector.setText("导演：" + item.getDirectors());
-                tvDateAndPeriod.setText(item.getRelease_date() + "/" + item.getDuration() + "分钟");
+                tvActor.setText("主演: " + item.getActors());
+                tvDirector.setText("导演: " + item.getDirectors());
+                tvDate.setText("上映时间: "+ item.getRelease_date());
+                tvPeriod.setText("时长: "+ item.getDuration()+"分钟");
+                tvType.setText("类型: "+ TransferUtil.transferFilmType(item.getType()));
                 tvDiscription.setText(item.getDescription());
                 tvRating.setText(item.getGrade() + "");
+
                 ratingBar.setRating((int) (item.getGrade()));
             } else {
                 ToastUtil.printToast(this, "获取电影详情失败");
@@ -151,8 +198,4 @@ public class MovieDetailActivity extends AppCompatActivity implements viewContro
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
 }

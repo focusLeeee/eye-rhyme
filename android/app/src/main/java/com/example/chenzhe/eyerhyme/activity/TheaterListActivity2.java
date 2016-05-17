@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.adapter.TheatersNearbyAdapter;
@@ -92,9 +92,9 @@ public class TheaterListActivity2 extends AppCompatActivity implements viewContr
 
         toolbar.setTitle("");
         tbTitle.setText("影院列表");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -141,10 +141,6 @@ public class TheaterListActivity2 extends AppCompatActivity implements viewContr
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {

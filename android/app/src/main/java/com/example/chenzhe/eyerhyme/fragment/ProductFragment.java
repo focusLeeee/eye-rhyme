@@ -64,7 +64,10 @@ public class ProductFragment extends Fragment implements viewController {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent it = new Intent(getActivity(), SeatActivity.class);
                 int product_id = productResponse.result.get(position).getProduct_id();
-                it.putExtra("product_id", product_id);
+                it.putExtra("theater_name", getArguments().getString("theater_name"));
+                it.putExtra("movie_id", movie_id);
+                it.putExtra("date", date);
+                it.putExtra("product", productResponse.result.get(position));
                 startActivity(it);
             }
         });
@@ -74,9 +77,10 @@ public class ProductFragment extends Fragment implements viewController {
     }
 
     public void getProducts(int movie_id) {
+        this.movie_id = movie_id;
         HashMap<String , Object> map = new HashMap<>();
-//        map.put("movie_id", movie_id);
-        map.put("movie_id", 1);
+        map.put("movie_id", movie_id);
+//        map.put("movie_id", 1);
         map.put("theater_id", theater_id);
         map.put("date", date);
         PostUtil.newInstance().sendPost(this, getProductURL, map);
@@ -105,8 +109,4 @@ public class ProductFragment extends Fragment implements viewController {
         }
     }
 
-    @Override
-    public Context myContext() {
-        return getActivity();
-    }
 }

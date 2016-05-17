@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.chenzhe.eyerhyme.activity.RegisterActivity">
-    <include layout="@layout/toolbar"
-        android:id="@+id/toolbar"/>
+    <include layout="@layout/toolbar_support"/>
 
     <LinearLayout
         android:layout_width="match_parent"

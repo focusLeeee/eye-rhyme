@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.chenzhe.eyerhyme.R;
+import com.example.chenzhe.eyerhyme.model.MovieItem;
+import com.example.chenzhe.eyerhyme.util.PostUtil;
 
 import java.util.ArrayList;
 
@@ -15,9 +17,11 @@ import java.util.ArrayList;
 public class ImagePagerAdapter extends PagerAdapter {
 
     private ArrayList<View> views;
+    private ArrayList<MovieItem> items;
 
-    public ImagePagerAdapter(ArrayList<View> views) {
+    public ImagePagerAdapter(ArrayList<View> views, ArrayList<MovieItem> items) {
         this.views = views;
+        this.items = items;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class ImagePagerAdapter extends PagerAdapter {
         View view = views.get(position);
         // 如果访问网络下载图片，此处可以进行异步加载
         ImageView img = (ImageView) view.findViewById(R.id.icon);
-        img.setImageResource(R.mipmap.head);
+        PostUtil.newInstance().imageGET(img, "movie", items.get(position).getMovie_id());
         container.addView(view);
         return views.get(position); // 返回该view对象，作为key
     }

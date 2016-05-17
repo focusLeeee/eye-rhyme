@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.adapter.TheatersNearbyAdapter;
@@ -31,7 +32,7 @@ import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 
-public class TheaterListActivity extends Activity implements viewController, BGARefreshLayout.BGARefreshLayoutDelegate{
+public class TheaterListActivity extends AppCompatActivity implements viewController, BGARefreshLayout.BGARefreshLayoutDelegate{
     // 序列化的Key
     public final static String SER_KEY = "com.andy.ser";
     @Bind(R.id.tb_title)
@@ -93,9 +94,9 @@ public class TheaterListActivity extends Activity implements viewController, BGA
 
         toolbar.setTitle("");
         tbTitle.setText("影院列表");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -142,10 +143,6 @@ public class TheaterListActivity extends Activity implements viewController, BGA
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {

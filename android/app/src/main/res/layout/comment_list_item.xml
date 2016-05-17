@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ebriquete"
-        android:textSize="20dp"
+        android:textSize="14dp"
         android:textStyle="bold"
         android:id="@+id/tv_name"/>
     <TextView
@@ -20,6 +20,7 @@
         android:layout_toRightOf="@+id/tv_name"
         android:layout_alignBaseline="@+id/tv_name"
         android:textColor="@color/gray2"
+        android:textSize="12dp"
         android:layout_marginLeft="10dp"/>
     <TextView
         android:id="@+id/tv_content"
@@ -27,14 +28,14 @@
         android:layout_height="wrap_content"
         android:text="好评"
         android:layout_below="@+id/tv_name"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_marginTop="15dp"/>
     <io.techery.properratingbar.ProperRatingBar
         android:id="@id/rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:prb_totalTicks="5"
-        android:textSize="20dp"
+        android:textSize="12dp"
         app:prb_defaultRating="3"
         app:prb_symbolicTick="★"
         android:layout_marginTop="10dp"

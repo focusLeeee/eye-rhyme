@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.model.ProductItem;
+import com.example.chenzhe.eyerhyme.util.TransferUtil;
 
 import java.util.ArrayList;
 
@@ -62,7 +63,8 @@ public class ProductListAdapter extends BaseAdapter {
         viewHolder.tvOriginPrice.setText("$"+item.getPrice());
         viewHolder.tvOriginPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG| Paint.ANTI_ALIAS_FLAG);
         viewHolder.tvRealPrice.setText("$"+(item.getPrice()-item.getDiscount()));
-
+        viewHolder.tvStartTime.setText(TransferUtil.transferRound(item.getRound()));
+        viewHolder.tvType.setText(TransferUtil.transferProductType(item.getType()));
         return convertView;
     }
 

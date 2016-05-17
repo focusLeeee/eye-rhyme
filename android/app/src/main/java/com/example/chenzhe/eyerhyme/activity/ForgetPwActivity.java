@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.example.chenzhe.eyerhyme.R;
 import com.example.chenzhe.eyerhyme.customInterface.viewController;
@@ -168,9 +168,9 @@ public class ForgetPwActivity extends AppCompatActivity implements viewControlle
 
         toolbar.setTitle("");
         tbTitle.setText("找回密码");
-        setActionBar(toolbar);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -239,8 +239,5 @@ public class ForgetPwActivity extends AppCompatActivity implements viewControlle
         }
     }
 
-    @Override
-    public Context myContext() {
-        return this;
-    }
+
 }

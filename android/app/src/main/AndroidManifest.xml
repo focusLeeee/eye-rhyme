@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.chenzhe.eyerhyme">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -57,7 +58,9 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activity.MainActivity" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,7 +79,23 @@
         <activity android:name=".activity.MovieListActivity" />
         <activity android:name=".activity.ChoosingMovieAndDateActivity" />
         <activity android:name=".activity.TheaterListActivity2" />
-        <activity android:name=".activity.ChoosingProductActivity"></activity>
+        <activity android:name=".activity.ChoosingProductActivity" />
+        <activity android:name=".activity.ActivityDetailActivity" />
+        <activity android:name=".activity.PaymentActivity" />
+        <activity android:name=".activity.ConfirmOrderActivity" />
+        <activity
+            android:name=".activity.LaunchEventActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.SetLocationActivity" />
+        <activity android:name=".activity.MovieListActivity2" />
+        <activity android:name=".activity.CommentActivity" />
+        <activity
+            android:name=".activity.EditEventActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.UserDetailActivity" />
+        <activity android:name=".activity.UserEditActivity" />
+        <activity android:name=".activity.MyBillActivity" />
+        <activity android:name=".activity.WritingMovieCommentActivity"></activity>
     </application>
 
 </manifest>

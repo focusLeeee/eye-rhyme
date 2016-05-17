@@ -1,34 +1,49 @@
 package com.example.chenzhe.eyerhyme.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Jay on 2016/5/6.
  */
-public class TheaterCommentItem {
-    // user_id: 评论者id
-    // user_name: 评论者昵称
-    // grade: 评分
-    // content: 评论内容
-    // time: 评论时间
-    private int user_id;
-    private String user_name;
-    private double grade;
+public class TheaterCommentItem implements Serializable{
+//    “name”: string, 评分用户的用户名
+//    “grade”: integer, 评分的分数
+//    “content”: string, 评论的内容
+//    “date_time”: string, 评论时间
+    private String name;
+    private int grade;
     private String content;
-    private String time;
-    public TheaterCommentItem(int id, String name, double t_grade, String cont, String t) {
-        user_id = id;
-        user_name = name;
-        grade = t_grade;
-        content = cont;
-        time = t;
+    private String date_time;
+
+    public String getName() {
+        return name;
     }
 
-    public int getUser_id() { return user_id; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getUser_name() { return user_name; }
+    public int getGrade() {
+        return grade;
+    }
 
-    public double getGrade() { return grade; }
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
 
-    public String getContent() { return content; }
+    public String getContent() {
+        return content;
+    }
 
-    public String getTime() { return time; }
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getDate_time() {
+        return date_time;
+    }
+
+    public void setDate_time(String date_time) {
+        this.date_time = date_time;
+    }
 }
